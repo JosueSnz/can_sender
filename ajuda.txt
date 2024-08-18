@@ -1,0 +1,8 @@
+Talvez ajude vcs:
+
+telemetria traseira do Caio: https://github.com/TelemetriaCheetah/TelemetriaTraseira
+como funciona o can: https://www.youtube.com/watch?v=wVJxxRDwIMQ
+mcp_can biblioteca: https://github.com/coryjfowler/MCP_CAN_lib
+exemplo com a biblioteca: https://tutorial45.com/mcp2515-arduino-project-can-arduino/
+outro exemplo: https://www.electronicshub.org/arduino-mcp2515-can-bus-tutorial/
+
