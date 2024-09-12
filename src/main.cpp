@@ -5,21 +5,21 @@
 */
 
 #include "main.h"
-#include <gy80.h>
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Wire.begin();
   // Inicializa o BMP085
   bmp085Calibration();
-
   if (can.begin(MCP_ANY, CAN_500KBPS, MCP_8MHZ) == CAN_OK) {
     Serial.println("CAN Inicializado...");
   } else {
     Serial.println("Erro ao iniciar o CAN...");
   }
-
+  pinMode(CAN0_INT, INPUT_PULLUP);
+  pinMode(POT, INPUT);
   can.setMode(MCP_NORMAL);
+
 }
 
 void loop() {
@@ -32,6 +32,8 @@ void loop() {
   float atm = pressure / 101325;
   // Chama a rotina que calcula a altitude
   float altitude = calcAltitude(pressure);
+
+  Serial.println();
   Serial.print("Temperatura: ");
   // Mostra a temperatura com 2 casas decimais
   Serial.print(temperature, 2);
@@ -46,7 +48,6 @@ void loop() {
   // Mostra o valor com 2 casas decimais
   Serial.print(altitude, 2);
   Serial.println(" M");
-  Serial.println();
 
   /* ADICIONE AQUI O CODIGO PARA ENVIAR OS DADOS PELA REDE CAN
      AMOSTRA DOS DADOS A SEREM ENVIADOS:
@@ -55,4 +56,16 @@ void loop() {
      ATMOSFERA: 0.98
      ALTITUDE: 840.74
   */
+  potValue = analogRead(POT);
+  Serial.print("Potenciometro: ");
+  Serial.println(potValue);
+  Serial.println();
+
+  can.sendFloat(temperature, 0x01);
+  can.sendFloat(pressure, 0x02);
+  can.sendFloat(atm, 0x03);
+  can.sendFloat(altitude, 0x04);
+  can.sendInt(potValue, 0x05);
+
+  delay(500);
 }

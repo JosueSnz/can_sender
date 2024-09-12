@@ -5,8 +5,12 @@
 #include <SPI.h>
 #include <mcp_can.h>
 #include <Wire.h>
+#include "can.h"
+#include "gy80.h"
 
-#define CAN0_INT 17                              
-MCP_CAN can(2); 
+CAN can(10); // verificar a pinagem
+
+#define POT A0   
+int potValue = 0;                     
 
 #endif
